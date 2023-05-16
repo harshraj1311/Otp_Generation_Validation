@@ -36,6 +36,8 @@ public class ValidateOtpServiceImpl implements ValidateOtpService {
                 throw new OtpValidationFailedException(Constants.OTP_EXPIRED_MESSAGE);
             }
         }
-        throw new OtpValidationFailedException(Constants.OTP_INVALID);
+        else {
+            throw new OtpValidationFailedException(Constants.OTP_INVALID);
+        }
     }
 }
