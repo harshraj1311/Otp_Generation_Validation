@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Service
@@ -26,7 +24,8 @@ public class ValidateOtpServiceImpl implements ValidateOtpService {
      * */
     @Override
     public void validateOtp(ValidateOtpRequest validateOtpRequest) {
-        final Optional<OneTimePassword> otpEntityOptional = otpRepository.findByPhoneNumberAndOtp(validateOtpRequest.getPhoneNumber(), validateOtpRequest.getOtp());
+        String number = validateOtpRequest.getCountryCode()+" "+validateOtpRequest.getMobileNumber();
+        final Optional<OneTimePassword> otpEntityOptional = otpRepository.findByPhoneNumberAndOtp(number, validateOtpRequest.getOtp());
         if (otpEntityOptional.isPresent()) {
             final OneTimePassword otpEntity = otpEntityOptional.get();
             if (Instant.parse(otpEntity.getExpiryTime()).isAfter(Instant.now())) {
@@ -37,6 +36,7 @@ public class ValidateOtpServiceImpl implements ValidateOtpService {
             }
         }
         else {
+
             throw new OtpValidationFailedException(Constants.OTP_INVALID);
         }
     }

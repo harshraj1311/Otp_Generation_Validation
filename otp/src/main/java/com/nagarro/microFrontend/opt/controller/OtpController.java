@@ -6,7 +6,6 @@ import com.nagarro.microFrontend.opt.dto.SendOtpRequest;
 import com.nagarro.microFrontend.opt.dto.ValidateOtpRequest;
 import com.nagarro.microFrontend.opt.service.SendingOtpService;
 import com.nagarro.microFrontend.opt.service.ValidateOtpService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +27,7 @@ public class OtpController {
     @PostMapping("/generate")
     @ApiOperation(value = "Send OTP", notes = "send otp to user's mobile number")
     public ResponseEntity<OtpResponse> sendOtp(@RequestBody SendOtpRequest sendOtpRequest) throws Exception {
-        OtpResponse otpResponse = sendingOtpService.sendOTPForMobileNumberVerification(sendOtpRequest.getPhoneNumber());
+        OtpResponse otpResponse = sendingOtpService.sendOTPForMobileNumberVerification(sendOtpRequest.getCountryCode()+" "+sendOtpRequest.getMobileNumber());
         return new ResponseEntity<>(otpResponse, HttpStatus.valueOf(otpResponse.getStatusCode()));
     }
 

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
@@ -36,10 +35,11 @@ public class SendingOtpServiceImpl implements SendingOtpService {
      * */
     @Override
     public OtpResponse sendOTPForMobileNumberVerification(String number) throws FailedToSendException {
-            final String generatedOTP = generateOTP();
-            sendOtp(number, generatedOTP);
-            final OtpResponse otpResponse = new OtpResponse(null, HttpStatus.SC_OK, Constants.OTP_DELIVERED_MESSAGE, null);
-            saveOtp(number, generatedOTP);
+        System.out.println(number);
+        final String generatedOTP = generateOTP();
+        sendOtp(number, generatedOTP);
+        saveOtp(number, generatedOTP);
+        final OtpResponse otpResponse = new OtpResponse(null, HttpStatus.SC_OK, Constants.OTP_DELIVERED_MESSAGE, null);
         return otpResponse;
     }
 
@@ -59,6 +59,7 @@ public class SendingOtpServiceImpl implements SendingOtpService {
     private void sendOtp(String number, String otp) throws FailedToSendException {
         try {
             final PhoneNumber to = new PhoneNumber(number);
+            System.out.println(to);
             final PhoneNumber from = new PhoneNumber(sendOtpConfig.getTrialNumber());
             final String otpMessage = "Dear Customer, Your OTP for mobile verification is " + otp + " . It will expire in 2 minutes.";
             Message.creator(to, from, otpMessage).create();

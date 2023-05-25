@@ -1,6 +1,5 @@
 package com.nagarro.microFrontend.opt.exception;
 
-import com.nagarro.microFrontend.opt.constant.Constants;
 import com.nagarro.microFrontend.opt.dto.OtpResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
